@@ -59,9 +59,8 @@ audio thread.
 
 - **CLAP only.** No VST3: it would drag in Steinberg's GPL/proprietary dual
   license, and CLAP is the format that deserves better tooling.
-- **Not a DAW (yet).** No timeline editing, no microtonal anything — plause
-  stays a _generic_ host precisely so it's a fair test of what generic hosts
-  see from your plugin.
+- **Not a DAW (yet).** No timeline editing, no recording or playback, no plugin chaining, no transport. The goal is to make the
+  plugin boundary observable and testable, not to replace a DAW.
 - Built on [clack](https://github.com/prokopyl/clack).
 
 ## License

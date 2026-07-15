@@ -1,0 +1,10 @@
+[package]
+name = "plause-host"
+description = "CLAP hosting engine for plause: plugin discovery, loading, offline rendering, and realtime playback"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+authors.workspace = true
+
+[dependencies]
+plause-events = { workspace = true }

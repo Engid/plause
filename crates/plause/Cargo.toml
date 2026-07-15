@@ -1,0 +1,18 @@
+[package]
+name = "plause"
+description = "A headless CLAP host for testing plugins — inspect, render offline, and tap the event stream"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+authors.workspace = true
+
+[[bin]]
+name = "plause"
+path = "src/main.rs"
+
+[dependencies]
+plause-events = { workspace = true }
+plause-host = { workspace = true }
+# Yes, a CLAP host whose argument parser is called `clap`. No relation; pure coincidence.
+clap = { workspace = true }
+anyhow = { workspace = true }

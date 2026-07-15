@@ -1,0 +1,24 @@
+[workspace]
+resolver = "3"
+members = [
+    "crates/plause-events",
+    "crates/plause-host",
+    "crates/plause",
+]
+
+[workspace.package]
+version = "0.1.0"
+edition = "2024"
+license = "MIT OR Apache-2.0"
+authors = ["Nick Gideo <ngideo@gmail.com>"]
+
+[workspace.dependencies]
+# Internal crates
+plause-events = { path = "crates/plause-events", version = "0.1.0" }
+plause-host = { path = "crates/plause-host", version = "0.1.0" }
+
+# External. Kept deliberately light — see ARCHITECTURE.md ("Dependencies").
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+clap = { version = "4", features = ["derive"] }
+anyhow = "1"

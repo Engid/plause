@@ -89,7 +89,8 @@ diagnosis of exactly why not.*
 
 - [x] `plause inspect target/…/plause_probe.<dylib>` prints a complete,
       correct report on macOS
-- [ ] …and on Linux (verify via the CI run after pushing; no local Linux box)
+- [x] …and on Linux (CI run for 85dde32 green on ubuntu-latest: probe built
+      and all ABI integration tests passed, headless)
 - [ ] `plause inspect` against nih-plug/nice-plug example plugins works
       headlessly (manual check, not CI — nice-plug examples need to be built
       first, e.g. from tonarch's vendored `vendor/nice-plug/examples`)
@@ -98,8 +99,8 @@ diagnosis of exactly why not.*
       `EntryInitFailed`, `NoPluginFactory`, `NoPlugins` (these need
       purpose-built misbehaving fixtures; fold into the probe's `misbehave`
       work in v0.4, or hand-craft tiny cdylibs like the no-entry test does)
-- [x] `cargo test --workspace` green locally with no audio hardware and no
-      display (CI confirmation pending push)
+- [x] `cargo test --workspace` green locally and in CI (Linux + macOS) with
+      no audio hardware and no display
 
 ### Non-goals
 

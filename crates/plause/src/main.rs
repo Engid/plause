@@ -58,17 +58,94 @@ enum Command {
 fn main() -> Result<()> {
     match Cli::parse().command {
         Command::Scan { dir } => scan(dir),
-        Command::Inspect { .. } => {
-            bail!(
-                "`plause inspect` is not implemented yet — it is the milestone 1 deliverable (plugin loading via clack). See the roadmap in README.md."
-            )
-        }
+        Command::Inspect { plugin, json } => inspect(&plugin, json),
         Command::Render { .. } => {
             bail!(
                 "`plause render` is not implemented yet — it is the milestone 2 deliverable (offline engine + event tap). See the roadmap in README.md."
             )
         }
     }
+}
+
+fn inspect(path: &std::path::Path, json: bool) -> Result<()> {
+    let info = plause_host::instance::inspect(path)?;
+
+    if json {
+        println!("{}", serde_json::to_string_pretty(&info)?);
+        return Ok(());
+    }
+
+    println!("{}", info.path);
+    for plugin in &info.plugins {
+        let d = &plugin.descriptor;
+        println!();
+        println!(
+            "{} ({}){}",
+            d.name.as_deref().unwrap_or("<unnamed>"),
+            d.id,
+            d.version
+                .as_deref()
+                .map(|v| format!(" v{v}"))
+                .unwrap_or_default(),
+        );
+        if let Some(vendor) = &d.vendor {
+            println!("  vendor:     {vendor}");
+        }
+        if let Some(description) = &d.description {
+            println!("  about:      {description}");
+        }
+        println!("  features:   {}", d.features.join(", "));
+        println!("  extensions: {}", plugin.extensions.join(", "));
+
+        println!("  audio ports:");
+        for (dir, ports) in [
+            ("in ", &plugin.audio_ports.inputs),
+            ("out", &plugin.audio_ports.outputs),
+        ] {
+            for p in ports {
+                let port_type = p.port_type.as_deref().unwrap_or("?");
+                let main = if p.is_main { ", main" } else { "" };
+                println!(
+                    "    {dir} [{}] \"{}\" — {}ch ({port_type}{main})",
+                    p.id, p.name, p.channel_count
+                );
+            }
+        }
+
+        println!("  note ports:");
+        for (dir, ports) in [
+            ("in ", &plugin.note_ports.inputs),
+            ("out", &plugin.note_ports.outputs),
+        ] {
+            for p in ports {
+                let preferred = p.preferred_dialect.as_deref().unwrap_or("?");
+                println!(
+                    "    {dir} [{}] \"{}\" — dialects: {} (preferred: {preferred})",
+                    p.id,
+                    p.name,
+                    p.supported_dialects.join(", "),
+                );
+            }
+        }
+
+        println!("  params:");
+        for p in &plugin.params {
+            println!(
+                "    [{}] {} — {}..{} (default {}){}",
+                p.id,
+                p.name,
+                p.min_value,
+                p.max_value,
+                p.default_value,
+                if p.flags.is_empty() {
+                    String::new()
+                } else {
+                    format!(" — {}", p.flags.join(", "))
+                },
+            );
+        }
+    }
+    Ok(())
 }
 
 fn scan(dir: Option<PathBuf>) -> Result<()> {

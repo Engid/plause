@@ -3,6 +3,7 @@ resolver = "3"
 members = [
     "crates/plause-events",
     "crates/plause-host",
+    "crates/plause-probe",
     "crates/plause",
 ]
 
@@ -22,3 +23,16 @@ serde = { version = "1", features = ["derive"] }
 serde_json = "1"
 clap = { version = "4", features = ["derive"] }
 anyhow = "1"
+thiserror = "2"
+
+# clack is not published to crates.io yet; the git revision is pinned by
+# Cargo.lock. MIT licensed.
+clack-host = { git = "https://github.com/prokopyl/clack" }
+clack-plugin = { git = "https://github.com/prokopyl/clack" }
+clack-extensions = { git = "https://github.com/prokopyl/clack", features = [
+    "audio-ports",
+    "note-ports",
+    "params",
+    "state",
+    "gui",
+] }

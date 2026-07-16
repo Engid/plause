@@ -59,7 +59,9 @@ Enforcement, not just convention:
 
 Any capability not reachable headlessly does not exist. The GUI (milestone 4)
 is a viewer over the same library API the CLI uses; "should the GUI do X?"
-resolves to "does the CLI do X?".
+resolves to "does the CLI do X?". This is how the project serves both of its
+audiences (see the Vision section of the README): every DAW feature built for
+humans is automatically available to automated plugin testing, and vice versa.
 
 ## Rule 3: the tap format is append-only stable
 

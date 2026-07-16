@@ -16,3 +16,4 @@ plause-host = { workspace = true }
 # Yes, a CLAP host whose argument parser is called `clap`. No relation; pure coincidence.
 clap = { workspace = true }
 anyhow = { workspace = true }
+serde_json = { workspace = true }

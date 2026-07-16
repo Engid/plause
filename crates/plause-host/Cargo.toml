@@ -8,3 +8,8 @@ authors.workspace = true
 
 [dependencies]
 plause-events = { workspace = true }
+clack-host = { workspace = true }
+clack-extensions = { workspace = true, features = ["clack-host"] }
+thiserror = { workspace = true }
+serde = { workspace = true }
+serde_json = { workspace = true }
